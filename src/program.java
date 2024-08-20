@@ -50,7 +50,7 @@ public class program {
             String input = scanner.nextLine();
 
             if (input.equals("r")) {
-                int roll = random.nextInt(100) + 1;
+                int roll = random.nextInt(6) + 1;
                 System.out.println("You rolled a " + roll);
 
                 if (position + roll <= 100) {
