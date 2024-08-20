@@ -53,6 +53,15 @@ public class program {
                 int roll = random.nextInt(6) + 1;
                 System.out.println("You rolled a " + roll);
 
+                int option = random.nextInt(3);
+
+                switch (option) {
+                    case 0:
+                    System.out.println("No Play. You stay at position " + position);
+                    break;
+                
+                    case 1:
+                
                 if (position + roll <= 100) {
                     position += roll;
                     System.out.println("You moved to position " + position);
@@ -67,16 +76,39 @@ public class program {
                 } else {
                     System.out.println("Roll too high to move. Stay at position " + position);
                 }
+                break;
+                case 2:
+                if(position - roll >= 0){
+                    position = position - roll;
+                    System.out.println("Snake! You move back to position "+ position);
+
+                    //check new position
+                    if(ladders.containsKey(position)){
+                        position = ladders.get(position);
+                        System.out.println("Great! You landed on a ladder. Move uo to posion" + position);
+
+                    }else if(snakes.containsKey(position)){
+                        position = snakes.get(position);
+                        System.out.println("Oh no! you landed on a snake. Move down to the position "+ position);
+                    }
+                    }else{
+                        System.out.println("You can't move back below 0. Stay at position " + position);
+
+                    }
+                    break;
+                
+                }
 
                 if (position == 100) {
                     System.out.println("Congratulations! You reached position 100 and won the game!");
                     break;
                 }
-            } else {
+                }else {
                 System.out.println("Invalid input. Please press 'r' to roll the die.");
             }
         }
-
         scanner.close();
     }
-}
+   
+  }
+
