@@ -40,81 +40,105 @@ public class program {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Random random = new Random();
-        int position = 0;
-        int rollCount = 0; //to keep track of the number of dice rolls
+        int positionPlayer1 = 0;
+        int positionPlayer2 = 0;
+        int rollCountPlayer1 = 0;
+        int rollCountPlayer2 = 0;
+        boolean player1Turn = true;
 
         System.out.println("Welcome to Snake and Ladder Game!");
 
-        while (position < 100) {
-            System.out.println("Press 'r' to roll the die.");
+        while (positionPlayer1 < 100 && positionPlayer2 < 100) {
+            String currentPlayer = player1Turn ? "Player 1" : "Player 2";
+            int currentPosition = player1Turn ? positionPlayer1 : positionPlayer2;
+            int rollCount = player1Turn ? rollCountPlayer1 : rollCountPlayer2;
+
+            System.out.println(currentPlayer + ", press 'r' to roll the die.");
             String input = scanner.nextLine();
 
             if (input.equals("r")) {
                 int roll = random.nextInt(6) + 1;
-                rollCount++; //Increment counter
-                System.out.println("You rolled a " + roll);
+                rollCount++;
+                System.out.println(currentPlayer + " rolled a " + roll);
 
                 int option = random.nextInt(3);
 
                 switch (option) {
                     case 0: // no play
-                        System.out.println("No Play. You stay at position " + position);
+                        System.out.println("No Play. " + currentPlayer + " stays at position " + currentPosition);
                         break;
 
-                    case 1: //ladder
-                        if (position + roll <= 100) {
-                            position += roll;
-                            System.out.println("Ladder!! You moved to position " + position);
+                    case 1: // ladder
+                        if (currentPosition + roll <= 100) {
+                            currentPosition += roll;
+                            System.out.println("Ladder!! " + currentPlayer + " moved to position " + currentPosition);
 
-                            if (snakes.containsKey(position)) {
-                                position = snakes.get(position);
-                                System.out.println("Oh no! You landed on a snake. Move down to position " + position);
-                            } else if (ladders.containsKey(position)) {
-                                position = ladders.get(position);
-                                System.out.println("Great! You landed on a ladder. Move up to position " + position);
+                            if (snakes.containsKey(currentPosition)) {
+                                currentPosition = snakes.get(currentPosition);
+                                System.out.println("Oh no! " + currentPlayer + " landed on a snake. Moved down to position " + currentPosition);
+                            } else if (ladders.containsKey(currentPosition)) {
+                                currentPosition = ladders.get(currentPosition);
+                                System.out.println("Great! " + currentPlayer + " landed on a ladder. Moved up to position " + currentPosition);
                             }
+
+                            // Player gets another turn if they land on a ladder
+                            player1Turn = !player1Turn;
                         } else {
-                            System.out.println("Roll too high to move. Stay at position " + position);
+                            System.out.println("Roll too high to move. " + currentPlayer + " stays at position " + currentPosition);
                         }
                         break;
 
-                    case 2: //
-                        position = position - roll;
-                        if (position < 0) {
-                            System.out.println("You moved below 0. Restarting from position 0.");
-                            position = 0;
-                        }else{
-                            System.out.println("Snake! You move back to position " + position);
+                    case 2: // snake
+                        currentPosition -= roll;
+                        if (currentPosition < 0) {
+                            System.out.println(currentPlayer + " moved below 0. Restarting from position 0.");
+                            currentPosition = 0;
+                        } else {
+                            System.out.println("Snake! " + currentPlayer + " moved back to position " + currentPosition);
 
-                            // check new position again
-                            if (ladders.containsKey(position)) {
-                                position = ladders.get(position);
-                                System.out.println("Great! You landed on a ladder. Move uo to posion " + position);
-
-                            } else if (snakes.containsKey(position)) {
-                                position = snakes.get(position);
-                                System.out
-                                        .println("Oh no! you landed on a snake. Move down to the position " + position);
+                            if (ladders.containsKey(currentPosition)) {
+                                currentPosition = ladders.get(currentPosition);
+                                System.out.println("Great! " + currentPlayer + " landed on a ladder. Moved up to position " + currentPosition);
+                            } else if (snakes.containsKey(currentPosition)) {
+                                currentPosition = snakes.get(currentPosition);
+                                System.out.println("Oh no! " + currentPlayer + " landed on a snake. Moved down to position " + currentPosition);
                             }
                         }
                         break;
-
                 }
 
-                //position report after every die role
-                System.out.println("Current Position : " + position);
+                // Report position after every die roll
+                System.out.println(currentPlayer + "'s current position: " + currentPosition);
 
-                //check player reach at position 100
-                if (position == 100) {
-                    System.out.println("Congratulations! You reached position 100 and won the game! ");
-                    System.out.println("You rolled the dice " + rollCount + " times to win the game. ");
+                // Update the position and roll count for the current player
+                if (player1Turn) {
+                    positionPlayer1 = currentPosition;
+                    rollCountPlayer1 = rollCount;
+                } else {
+                    positionPlayer2 = currentPosition;
+                    rollCountPlayer2 = rollCount;
+                }
+
+                // Check if any player reached position 100
+                if (positionPlayer1 == 100) {
+                    System.out.println("Congratulations! Player 1 reached position 100 and won the game!");
+                    System.out.println("Player 1 rolled the dice " + rollCountPlayer1 + " times to win the game.");
+                    break;
+                } else if (positionPlayer2 == 100) {
+                    System.out.println("Congratulations! Player 2 reached position 100 and won the game!");
+                    System.out.println("Player 2 rolled the dice " + rollCountPlayer2 + " times to win the game.");
                     break;
                 }
+
+                // If the player did not land on a ladder, switch turns
+                if (!ladders.containsKey(currentPosition)) {
+                    player1Turn = !player1Turn;
+                }
             } else {
-                System.out.println("Invalid input. Please press 'r' to roll the die. ");
+                System.out.println("Invalid input. Please press 'r' to roll the die.");
             }
         }
         scanner.close();
     }
-
 }
+
