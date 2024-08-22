@@ -5,9 +5,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 
-
 public class program {
-    
+
     // Snakes and Ladders on the board
     private static final Map<Integer, Integer> snakes = new HashMap<>();
     private static final Map<Integer, Integer> ladders = new HashMap<>();
@@ -57,58 +56,58 @@ public class program {
 
                 switch (option) {
                     case 0:
-                    System.out.println("No Play. You stay at position " + position);
-                    break;
-                
-                    case 1:
-                
-                if (position + roll <= 100) {
-                    position += roll;
-                    System.out.println("You moved to position " + position);
+                        System.out.println("No Play. You stay at position " + position);
+                        break;
 
-                    if (snakes.containsKey(position)) {
-                        position = snakes.get(position);
-                        System.out.println("Oh no! You landed on a snake. Move down to position " + position);
-                    } else if (ladders.containsKey(position)) {
-                        position = ladders.get(position);
-                        System.out.println("Great! You landed on a ladder. Move up to position " + position);
-                    }
-                } else {
-                    System.out.println("Roll too high to move. Stay at position " + position);
-                }
-                break;
-                case 2:
-                if(position - roll >= 0){
-                    position = position - roll;
-                    System.out.println("Snake! You move back to position "+ position);
+                    case 1: //ladder
+                        if (position + roll <= 100) {
+                            position += roll;
+                            System.out.println("Ladder!! You moved to position " + position);
 
-                    //check new position
-                    if(ladders.containsKey(position)){
-                        position = ladders.get(position);
-                        System.out.println("Great! You landed on a ladder. Move uo to posion" + position);
+                            if (snakes.containsKey(position)) {
+                                position = snakes.get(position);
+                                System.out.println("Oh no! You landed on a snake. Move down to position " + position);
+                            } else if (ladders.containsKey(position)) {
+                                position = ladders.get(position);
+                                System.out.println("Great! You landed on a ladder. Move up to position " + position);
+                            }
+                        } else {
+                            System.out.println("Roll too high to move. Stay at position " + position);
+                        }
+                        break;
 
-                    }else if(snakes.containsKey(position)){
-                        position = snakes.get(position);
-                        System.out.println("Oh no! you landed on a snake. Move down to the position "+ position);
-                    }
-                    }else{
-                        System.out.println("You can't move back below 0. Stay at position " + position);
+                    case 2:
+                        position = position - roll;
+                        if (position < 0) {
+                            System.out.println("You moved below 0. Restarting from position 0.");
+                            position = 0;
+                        }else{
+                            System.out.println("Snake! You move back to position " + position);
 
-                    }
-                    break;
-                
+                            // check new position
+                            if (ladders.containsKey(position)) {
+                                position = ladders.get(position);
+                                System.out.println("Great! You landed on a ladder. Move uo to posion " + position);
+
+                            } else if (snakes.containsKey(position)) {
+                                position = snakes.get(position);
+                                System.out
+                                        .println("Oh no! you landed on a snake. Move down to the position " + position);
+                            }
+                        }
+                        break;
+
                 }
 
                 if (position == 100) {
-                    System.out.println("Congratulations! You reached position 100 and won the game!");
+                    System.out.println("Congratulations! You reached position 100 and won the game! ");
                     break;
                 }
-                }else {
-                System.out.println("Invalid input. Please press 'r' to roll the die.");
+            } else {
+                System.out.println("Invalid input. Please press 'r' to roll the die. ");
             }
         }
         scanner.close();
     }
-   
-  }
 
+}
