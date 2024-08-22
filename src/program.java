@@ -41,6 +41,7 @@ public class program {
         Scanner scanner = new Scanner(System.in);
         Random random = new Random();
         int position = 0;
+        int rollCount = 0; //to keep track of the number of dice rolls
 
         System.out.println("Welcome to Snake and Ladder Game!");
 
@@ -50,6 +51,7 @@ public class program {
 
             if (input.equals("r")) {
                 int roll = random.nextInt(6) + 1;
+                rollCount++; //Increment counter
                 System.out.println("You rolled a " + roll);
 
                 int option = random.nextInt(3);
@@ -98,9 +100,14 @@ public class program {
                         break;
 
                 }
+
+                //position report after every die role
+                System.out.println("Current Position : " + position);
+
                 //check player reach at position 100
                 if (position == 100) {
                     System.out.println("Congratulations! You reached position 100 and won the game! ");
+                    System.out.println("You rolled the dice " + rollCount + " times to win the game. ");
                     break;
                 }
             } else {
