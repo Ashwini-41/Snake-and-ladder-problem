@@ -55,7 +55,7 @@ public class program {
                 int option = random.nextInt(3);
 
                 switch (option) {
-                    case 0:
+                    case 0: // no play
                         System.out.println("No Play. You stay at position " + position);
                         break;
 
@@ -76,7 +76,7 @@ public class program {
                         }
                         break;
 
-                    case 2:
+                    case 2: //
                         position = position - roll;
                         if (position < 0) {
                             System.out.println("You moved below 0. Restarting from position 0.");
@@ -84,7 +84,7 @@ public class program {
                         }else{
                             System.out.println("Snake! You move back to position " + position);
 
-                            // check new position
+                            // check new position again
                             if (ladders.containsKey(position)) {
                                 position = ladders.get(position);
                                 System.out.println("Great! You landed on a ladder. Move uo to posion " + position);
@@ -98,7 +98,7 @@ public class program {
                         break;
 
                 }
-
+                //check player reach at position 100
                 if (position == 100) {
                     System.out.println("Congratulations! You reached position 100 and won the game! ");
                     break;
